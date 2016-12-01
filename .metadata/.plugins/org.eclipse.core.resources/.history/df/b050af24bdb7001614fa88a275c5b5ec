@@ -1,0 +1,46 @@
+package view;
+
+import java.awt.Dimension;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class MyFrame extends JFrame {
+
+	public static void setupFrame() {
+		MyFrame jf = new MyFrame();
+		JPanel jp = new JPanel();
+
+		JTextField select = new JTextField("Mostrar");
+		JComboBox<String> model = new JComboBox<String>(Listas.models);
+		JTextField where = new JTextField("Onde");
+		JComboBox<String> field = new JComboBox<String>();
+		JTextField condition = new JTextField("Condição");
+		JButton search = new JButton("Pesquisar");
+		JList<String> result = new JList<String>();
+		
+		select.setEditable(false);
+		where.setEditable(false);
+		
+		jp.add(select);
+		jp.add(model);
+		jp.add(where);
+		jp.add(field);
+		jp.add(condition);
+		jp.add(search);
+		jp.add(result);
+
+		jf.setSize(new Dimension(800, 600));
+		jf.setLocationRelativeTo(null);
+		jf.setContentPane(jp);
+		jf.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		setupFrame();
+	}
+}

@@ -1,0 +1,7 @@
+package view;
+
+public final class MenuOptions {
+
+	public static String[] models = { "Carro", "Cartao", "Cliente",
+			"Motorista", "Percurso", "Viagem" };
+}
