@@ -85,7 +85,7 @@ public class MyFrame extends JFrame {
 				LinkedList<String> fields = new LinkedList<String>();
 				LinkedList<Viagem> v = DAO.getInstance().selectViagem();
 				for (Viagem viagem : v) {
-					System.out.println(viagem.getCarro().getModelo());
+					System.out.println(viagem);
 				}
 				jf.getContentPane().remove(7);
 				JTable table;

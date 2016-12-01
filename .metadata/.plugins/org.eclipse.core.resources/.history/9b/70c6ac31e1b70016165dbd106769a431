@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -59,7 +58,9 @@ public class MyFrame extends JFrame {
 		jp.add(operation);
 		jp.add(condition);
 		jp.add(search);
-		jp.add(result, BorderLayout.SOUTH);
+		jp.add(result);
+		
+		jp.setLayout(new GridLayout());
 
 		jf.setSize(new Dimension(800, 600));
 		jf.setLocationRelativeTo(null);
@@ -85,10 +86,8 @@ public class MyFrame extends JFrame {
 				LinkedList<String> fields = new LinkedList<String>();
 				LinkedList<Viagem> v = DAO.getInstance().selectViagem();
 				for (Viagem viagem : v) {
-					System.out.println(viagem.getCarro().getModelo());
+					System.out.println(viagem);
 				}
-				jf.getContentPane().remove(7);
-				JTable table;
 			}
 		}
 	}

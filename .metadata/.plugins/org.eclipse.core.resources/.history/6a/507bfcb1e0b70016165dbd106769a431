@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -10,8 +8,8 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import model.Viagem;
@@ -37,11 +35,11 @@ public class MyFrame extends JFrame {
 
 		JButton search = new JButton("Pesquisar");
 
-		JTable result = new JTable();
+		JList<String> result = new JList<String>();
 
 		select.setEditable(false);
 		where.setEditable(false);
-		condition.setPreferredSize(new Dimension(150,25));
+		condition.setPreferredSize(new Dimension(100,25));
 
 		select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,7 +57,7 @@ public class MyFrame extends JFrame {
 		jp.add(operation);
 		jp.add(condition);
 		jp.add(search);
-		jp.add(result, BorderLayout.SOUTH);
+		jp.add(result);
 
 		jf.setSize(new Dimension(800, 600));
 		jf.setLocationRelativeTo(null);
@@ -83,12 +81,14 @@ public class MyFrame extends JFrame {
 			if (currentModel != selectedModel) {
 				currentModel = selectedModel;
 				LinkedList<String> fields = new LinkedList<String>();
+				fields.add("id");
+				String table = "carro";
+				String condition = "id = 0";
+				DAO.getInstance().select(fields, table, condition);
 				LinkedList<Viagem> v = DAO.getInstance().selectViagem();
 				for (Viagem viagem : v) {
-					System.out.println(viagem.getCarro().getModelo());
+					System.out.println(viagem);
 				}
-				jf.getContentPane().remove(7);
-				JTable table;
 			}
 		}
 	}
