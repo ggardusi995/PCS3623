@@ -7,10 +7,10 @@ INDEX VERSION 1.127+C:\Users\Giovanni\Desktop\Poli\PCS3623\Trabalho\.metadata\.p
 3414683811.index
 1945926667.index
 185975254.index
-3706135349.index
 2345470644.index
-2690778029.index
+3706135349.index
 3865867211.index
+2690778029.index
 2292250293.index
 3000975533.index
 51467596.index

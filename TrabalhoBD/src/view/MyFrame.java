@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -10,11 +8,13 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
-import model.Viagem;
 import dao.DAO;
 
 public class MyFrame extends JFrame {
@@ -29,7 +29,7 @@ public class MyFrame extends JFrame {
 
 		JTextField select = new JTextField("Mostrar");
 		JTextField where = new JTextField("onde");
-		JTextField condition = new JTextField("Condição");
+		JTextField condition = new JTextField("condição");
 
 		JComboBox<String> model = new JComboBox<String>(Listas.models);
 		JComboBox<String> field = new JComboBox<String>();
@@ -37,16 +37,25 @@ public class MyFrame extends JFrame {
 
 		JButton search = new JButton("Pesquisar");
 
-		JTable result = new JTable();
-
 		select.setEditable(false);
 		where.setEditable(false);
 		condition.setPreferredSize(new Dimension(150,25));
 
-		select.addActionListener(new ActionListener() {
+		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JButton search = (JButton) e.getSource();
-				// JPanel jp = search.get
+				System.out.println("oi");
+				JComboBox<String> m = (JComboBox<String>) jf.getContentPane().getComponent(1);
+				String tableName = Listas.tables[m.getSelectedIndex()];
+				
+				JComboBox<String> f = (JComboBox<String>) jf.getContentPane().getComponent(3);
+				JComboBox<String> o = (JComboBox<String>) jf.getContentPane().getComponent(4);
+				JTextField c = (JTextField) jf.getContentPane().getComponent(5);
+				
+				String cond = (String) f.getSelectedItem() + o.getSelectedItem() + c.getText();
+				
+				DefaultTableModel dtm = DAO.getInstance().select(tableName," WHERE "+cond);
+				JTable jtable = new JTable(dtm);
+				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
 
@@ -59,7 +68,6 @@ public class MyFrame extends JFrame {
 		jp.add(operation);
 		jp.add(condition);
 		jp.add(search);
-		jp.add(result, BorderLayout.SOUTH);
 
 		jf.setSize(new Dimension(800, 600));
 		jf.setLocationRelativeTo(null);
@@ -82,13 +90,13 @@ public class MyFrame extends JFrame {
 			selectedModel = model.getSelectedIndex();
 			if (currentModel != selectedModel) {
 				currentModel = selectedModel;
-				LinkedList<String> fields = new LinkedList<String>();
-				LinkedList<Viagem> v = DAO.getInstance().selectViagem();
-				for (Viagem viagem : v) {
-					System.out.println(viagem.getCarro().getModelo());
+				String tableName = Listas.tables[currentModel];
+				LinkedList<String> columnNames = DAO.getInstance().getColumnNames(tableName);
+				JComboBox<String> field = (JComboBox<String>) jf.getContentPane().getComponent(3);
+				field.removeAllItems();
+				for (String f : columnNames) {
+					field.addItem(f);
 				}
-				jf.getContentPane().remove(7);
-				JTable table;
 			}
 		}
 	}
