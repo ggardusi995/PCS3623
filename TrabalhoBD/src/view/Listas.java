@@ -9,4 +9,7 @@ public final class Listas {
 	
 	public static String[] tables = { "carro", "cartao", "cliente",
 		"motorista", "percurso", "viagem" };
+	
+	public static String[] initField = {"id", "placa", "renavam",
+		"premium", "modelo", "cor"};
 }

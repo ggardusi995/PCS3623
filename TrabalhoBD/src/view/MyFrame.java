@@ -32,7 +32,7 @@ public class MyFrame extends JFrame {
 		JTextField condition = new JTextField("condição");
 
 		JComboBox<String> model = new JComboBox<String>(Listas.models);
-		JComboBox<String> field = new JComboBox<String>();
+		JComboBox<String> field = new JComboBox<String>(Listas.initField);
 		JComboBox<String> operation = new JComboBox<String>(Listas.operations);
 
 		JButton search = new JButton("Pesquisar");
@@ -43,7 +43,6 @@ public class MyFrame extends JFrame {
 
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("oi");
 				JComboBox<String> m = (JComboBox<String>) jf.getContentPane().getComponent(1);
 				String tableName = Listas.tables[m.getSelectedIndex()];
 				
@@ -51,11 +50,17 @@ public class MyFrame extends JFrame {
 				JComboBox<String> o = (JComboBox<String>) jf.getContentPane().getComponent(4);
 				JTextField c = (JTextField) jf.getContentPane().getComponent(5);
 				
-				String cond = (String) f.getSelectedItem() + o.getSelectedItem() + c.getText();
-				
+				String cond;
+				if (c.getText().equals("")) {
+					cond = "1=1";
+				} else {
+					cond = (String) f.getSelectedItem() + o.getSelectedItem() + c.getText();
+				}
 				DefaultTableModel dtm = DAO.getInstance().select(tableName," WHERE "+cond);
 				JTable jtable = new JTable(dtm);
-				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
+				JScrollPane jsp = new JScrollPane(jtable);
+				//jsp.add
+				JOptionPane.showMessageDialog(null, jsp);
 			}
 		});
 
