@@ -11,13 +11,6 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import model.Carro;
-import model.Cartao;
-import model.Cliente;
-import model.Motorista;
-import model.Percurso;
-import model.Viagem;
-
 public class DAO {
 
 	private static final DAO instance = new DAO();
@@ -39,6 +32,7 @@ public class DAO {
 		return instance;
 	}
 
+	/**
 	private Motorista getMotorista(ResultSet rs) throws SQLException {
 		Motorista m = new Motorista();
 		m.setCPF(rs.getString("m_cpf"));
@@ -99,6 +93,7 @@ public class DAO {
 		v.setPercurso(getPercurso(rs));
 		return v;
 	}
+	**/
 	
 	public boolean delete(String table, String id) {
 		Connection conn = null;
