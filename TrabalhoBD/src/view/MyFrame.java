@@ -64,7 +64,7 @@ public class MyFrame extends JFrame {
 					if (!mat.matches()) {
 						cstr = "'"+cstr+"'";
 					}
-					cond = (String) f.getSelectedItem() + o.getSelectedItem() + cstr;
+					cond = (String) f.getSelectedItem() + " " +o.getSelectedItem() + cstr;
 					
 				}
 				DefaultTableModel dtm = DAO.getInstance().select(tableName," WHERE "+cond);
