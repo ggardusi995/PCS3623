@@ -100,6 +100,50 @@ public class DAO {
 		return v;
 	}
 	
+	public boolean delete(String table, String id) {
+		Connection conn = null;
+		boolean res = false;
+		try {
+			conn = getConnection();
+			String query = "DELETE FROM "+table+" WHERE id = "+id;
+			PreparedStatement ps = conn.prepareStatement(query);
+			res = ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+	
+	public void update(String table, String id, LinkedList<String> row) {
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			String query = "UPDATE "+table+" SET ";
+			LinkedList<String> cols = getColumnNames(table);
+			for (int cnt = 1; cnt < (cols.size()-1); cnt++) {
+				query += (cols.get(cnt)+" = "+row.get(cnt)+", ");
+			}
+			query += (cols.get(cols.size()-1)+" = "+row.get(cols.size()-1));
+			query += "WHERE id = "+id;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public DefaultTableModel select(String table, String condition) {
 		//LinkedList<Viagem> viagens = new LinkedList<Viagem>();
 		Connection conn = null;

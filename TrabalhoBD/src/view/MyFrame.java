@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -8,7 +11,6 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,7 +23,8 @@ public class MyFrame extends JFrame {
 
 	static MyFrame jf;
 
-	private MyFrame() {
+	private MyFrame(String title) {
+		super(title);
 	}
 
 	public static void setup() {
@@ -39,7 +42,6 @@ public class MyFrame extends JFrame {
 
 		select.setEditable(false);
 		where.setEditable(false);
-		condition.setPreferredSize(new Dimension(150,25));
 
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,13 +61,65 @@ public class MyFrame extends JFrame {
 				DefaultTableModel dtm = DAO.getInstance().select(tableName," WHERE "+cond);
 				JTable jtable = new JTable(dtm);
 				JScrollPane jsp = new JScrollPane(jtable);
+				JPanel tp = new JPanel();
+				JButton delete = new JButton("Deletar Linha");
+				delete.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JScrollPane p = (JScrollPane) tp.getComponent(0);
+						JTable t = (JTable) p.getViewport().getView();
+						int row = t.getSelectedRow();
+						String id = "" + t.getModel().getValueAt(row, 0);
+						boolean res = DAO.getInstance().delete(tableName, id);
+						if (res) {
+							((DefaultTableModel)t.getModel()).removeRow(row);
+						}
+					}
+				});
+				JButton update = new JButton("Salvar Linha");
+				update.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JScrollPane p = (JScrollPane) tp.getComponent(0);
+						JTable t = (JTable) p.getViewport().getView();
+						int row = t.getSelectedRow();
+						String id = "" + t.getModel().getValueAt(row, 0);
+						LinkedList<String> rowData = new LinkedList<String>();
+						for (int cnt = 0; cnt < t.getModel().getColumnCount(); cnt++) {
+							String n = t.getModel().getValueAt(row, cnt).getClass().getName();
+							if (n.equals("java.lang.String") | n.equals("java.sql.Date")) {
+								rowData.add("'"+((DefaultTableModel)t.getModel()).getValueAt(row, cnt)+"'");
+							} else rowData.add(""+((DefaultTableModel)t.getModel()).getValueAt(row, cnt));
+						}
+						DAO.getInstance().update(tableName, id, rowData);
+					}
+				});
+				tp.setLayout(new GridBagLayout());
+				GridBagConstraints g = new GridBagConstraints();
+				g.gridx = 0;
+				g.gridy = 0;
+				g.gridwidth = 2;
+				g.fill = GridBagConstraints.HORIZONTAL;
+				tp.add(jsp,g);
+				g.gridy = 1;
+				g.gridwidth = 1;
+				g.weightx = 0.5;
+				tp.add(delete,g);
+				g.gridx = 1;
+				tp.add(update,g);
 				//jsp.add
-				JOptionPane.showMessageDialog(null, jsp);
+				JFrame tf = new JFrame("Resultados para "+Listas.models[m.getSelectedIndex()]);
+				tf.setContentPane(tp);
+				tf.setSize(new Dimension(800, 600));
+				tf.setLocationRelativeTo(null);
+				tf.setVisible(true);
+				//JOptionPane.showMessageDialog(null, jsp);
 			}
 		});
 
+		jp.setLayout(new GridLayout(0,7));
 		// 0=select, 1=model, 2=where, 3=field,
-		// 4=operation, 5=condition, 6=search, 7=result
+		// 4=operation, 5=condition, 6=search, 7=
 		jp.add(select);
 		jp.add(model);
 		jp.add(where);
@@ -74,7 +128,7 @@ public class MyFrame extends JFrame {
 		jp.add(condition);
 		jp.add(search);
 
-		jf.setSize(new Dimension(800, 600));
+		jf.setSize(new Dimension(700, 100));
 		jf.setLocationRelativeTo(null);
 		jf.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		jf.setContentPane(jp);
@@ -83,7 +137,7 @@ public class MyFrame extends JFrame {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		jf = new MyFrame();
+		jf = new MyFrame("Projeto de BD - Transporte Urbano");
 		setup();
 
 		JComboBox<String> model;
