@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,7 +58,14 @@ public class MyFrame extends JFrame {
 				if (c.getText().equals("")) {
 					cond = "1=1";
 				} else {
-					cond = (String) f.getSelectedItem() + o.getSelectedItem() + c.getText();
+					String cstr = c.getText();
+					Pattern pat = Pattern.compile("/^\\d*\\.?\\d*$/");
+					Matcher mat = pat.matcher(cstr);
+					if (!mat.matches()) {
+						cstr = "'"+cstr+"'";
+					}
+					cond = (String) f.getSelectedItem() + o.getSelectedItem() + cstr;
+					
 				}
 				DefaultTableModel dtm = DAO.getInstance().select(tableName," WHERE "+cond);
 				JTable jtable = new JTable(dtm);
@@ -128,7 +137,7 @@ public class MyFrame extends JFrame {
 		jp.add(condition);
 		jp.add(search);
 
-		jf.setSize(new Dimension(700, 100));
+		jf.setSize(new Dimension(700, 80));
 		jf.setLocationRelativeTo(null);
 		jf.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		jf.setContentPane(jp);
