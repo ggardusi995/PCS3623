@@ -2,7 +2,7 @@ package view;
 
 public final class Listas {
 
-	public static String[] models = { "Carros", "Cartoes", "Clientes",
+	public static String[] models = { "Carros", "Cartões", "Clientes",
 			"Motoristas", "Percursos", "Viagens" };
 	
 	public static String[] operations = { "=",">","<",">=","<=","LIKE" };
