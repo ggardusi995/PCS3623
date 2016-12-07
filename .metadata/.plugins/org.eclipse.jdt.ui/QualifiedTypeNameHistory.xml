@@ -17,7 +17,6 @@
 <fullyQualifiedTypeName name="javax.swing.table.TableModel"/>
 <fullyQualifiedTypeName name="javax.swing.JTable"/>
 <fullyQualifiedTypeName name="java.sql.ResultSetMetaData"/>
-<fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="view.Listas"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
@@ -33,4 +32,10 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+<fullyQualifiedTypeName name="javax.swing.JMenu"/>
+<fullyQualifiedTypeName name="javax.swing.JMenuBar"/>
+<fullyQualifiedTypeName name="java.awt.MenuBar"/>
+<fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
+<fullyQualifiedTypeName name="javax.swing.ScrollPaneConstants"/>
+<fullyQualifiedTypeName name="javax.swing.JSpinner"/>
 </qualifiedTypeNameHistroy>
