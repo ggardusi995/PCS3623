@@ -199,6 +199,28 @@ public class DAO {
 		return res;
 	}
 	
+	public void insert(String table, LinkedList<String> row) {
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			String query = "INSERT INTO "+table+" VALUES (";
+			for (int cnt = 0; cnt < (row.size()); cnt++) {
+				query += row.get(cnt)+", ";
+			}
+			query += (row.get(row.size()-1)+")");
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void update(String table, String id, LinkedList<String> row) {
 		Connection conn = null;
 		try {

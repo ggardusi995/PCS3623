@@ -1,7 +1,0 @@
-package view;
-
-public final class Text {
-
-	public static String[] models = { "Carro", "Cartao", "Cliente",
-			"Motorista", "Percurso", "Viagem" };
-}
